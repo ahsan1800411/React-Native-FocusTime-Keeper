@@ -4,6 +4,7 @@ import Focus from "./src/features/focus/Focus";
 import Timer from "./src/features/timer/Timer";
 import { colors } from "./src/util/colors";
 import { spacing } from "./src/util/sizes";
+import FocusHistory from "./src/features/focus/FocusHistory";
 
 const STATUSES = {
   COMPLETE: 1,
@@ -16,6 +17,8 @@ export default function App() {
   const addFocusHistroySubjectWithState = (subject, status) => {
     setFocusHistroy([...focusHistroy, { subject, status }]);
   };
+
+  const onClear = () => {};
 
   return (
     <View style={styles.container}>
@@ -32,7 +35,10 @@ export default function App() {
           }}
         />
       ) : (
-        <Focus addSubject={setFocusSubject} />
+        <>
+          <Focus addSubject={setFocusSubject} />
+          <FocusHistory focusHistroy={focusHistroy} onClear={onClear} />
+        </>
       )}
     </View>
   );
