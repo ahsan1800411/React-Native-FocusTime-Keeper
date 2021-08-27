@@ -15,8 +15,11 @@ export default function App() {
   const [focusSubject, setFocusSubject] = useState(null);
   const [focusHistroy, setFocusHistroy] = useState([]);
 
-  const addFocusHistroySubjectWithState = (subject, status) => {
-    setFocusHistroy([...focusHistroy, { subject, status }]);
+  const addFocusHistroySubjectWithStatus = (subject, status) => {
+    setFocusHistroy([
+      ...focusHistroy,
+      { key: String(focusHistroy.length + 1), subject, status },
+    ]);
   };
 
   const onClear = () => {
@@ -56,19 +59,25 @@ export default function App() {
         <Timer
           focusSubject={focusSubject}
           onTimerEnd={() => {
-            addFocusHistroySubjectWithState(focusSubject, STATUSES["COMPLETE"]);
+            addFocusHistroySubjectWithStatus(
+              focusSubject,
+              STATUSES["COMPLETE"]
+            );
             setFocusSubject(null);
           }}
           clearSubject={() => {
-            addFocusHistroySubjectWithState(focusSubject, STATUSES["CANCELED"]);
+            addFocusHistroySubjectWithStatus(
+              focusSubject,
+              STATUSES["CANCELED"]
+            );
             setFocusSubject(null);
           }}
         />
       ) : (
-        <>
+        <View style={{ flex: 1 }}>
           <Focus addSubject={setFocusSubject} />
           <FocusHistory focusHistroy={focusHistroy} onClear={onClear} />
-        </>
+        </View>
       )}
     </View>
   );

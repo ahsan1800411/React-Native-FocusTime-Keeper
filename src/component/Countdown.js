@@ -17,14 +17,20 @@ export default function Countdown({
     setMillis((time) => {
       if (time === 0) {
         clearInterval(interval.current);
-        onEnd();
+
         return time;
       }
       const timeLeft = time - 1000;
-      onProgress(timeLeft / minutesToMilliSeconds(minutes));
+
       return timeLeft;
     });
   };
+  useEffect(() => {
+    onProgress(timeLeft / minutesToMilliSeconds(minutes));
+    if (millis === 0) {
+      onEnd();
+    }
+  }, [millis]);
 
   useEffect(() => {
     setMillis(minutesToMilliSeconds(minutes));
