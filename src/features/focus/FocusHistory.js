@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
 import RoundedButton from "../../component/RoundedButton";
 import { colors } from "../../util/colors";
 import { fontSizes, spacing } from "./../../util/sizes";
