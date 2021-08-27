@@ -9,7 +9,7 @@ import { colors } from "./../../util/colors";
 import Timing from "./Timing";
 
 const DEFAULT_TIME = 0.1;
-export default function Timer({ focusSubject, onTimerEnd }) {
+export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
   useKeepAwake();
   const [progress, setProgress] = useState(1);
   const [isStarted, setIsStarted] = useState(false);
@@ -73,6 +73,9 @@ export default function Timer({ focusSubject, onTimerEnd }) {
           <RoundedButton title='Start' onPress={() => setIsStarted(true)} />
         )}
       </View>
+      <View style={styles.clearSubject}>
+        <RoundedButton title='-' onPress={() => clearSubject()} />
+      </View>
     </View>
   );
 }
@@ -101,5 +104,9 @@ const styles = StyleSheet.create({
     padding: 30,
     justifyContent: "center",
     alignItems: "center",
+  },
+  clearSubject: {
+    paddingBottom: 25,
+    paddingLeft: 25,
   },
 });
