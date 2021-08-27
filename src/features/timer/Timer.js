@@ -9,7 +9,7 @@ import { colors } from "./../../util/colors";
 import Timing from "./Timing";
 
 const DEFAULT_TIME = 0.1;
-export default function Timer({ focusSubject }) {
+export default function Timer({ focusSubject, onTimerEnd }) {
   useKeepAwake();
   const [progress, setProgress] = useState(1);
   const [isStarted, setIsStarted] = useState(false);
@@ -33,6 +33,7 @@ export default function Timer({ focusSubject }) {
     setMinutes(DEFAULT_TIME);
     setProgress(1);
     setIsStarted(false);
+    onTimerEnd();
   };
 
   const changeTime = (min) => {
