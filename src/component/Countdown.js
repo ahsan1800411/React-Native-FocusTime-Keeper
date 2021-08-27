@@ -21,20 +21,18 @@ export default function Countdown({
         return time;
       }
       const timeLeft = time - 1000;
-
       return timeLeft;
     });
   };
+  useEffect(() => {
+    setMillis(minutesToMilliSeconds(minutes));
+  }, [minutes]);
   useEffect(() => {
     onProgress(timeLeft / minutesToMilliSeconds(minutes));
     if (millis === 0) {
       onEnd();
     }
   }, [millis]);
-
-  useEffect(() => {
-    setMillis(minutesToMilliSeconds(minutes));
-  }, [minutes]);
 
   useEffect(() => {
     if (isPaused) {
