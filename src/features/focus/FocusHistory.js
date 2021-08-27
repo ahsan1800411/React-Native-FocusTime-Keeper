@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
+import RoundedButton from "../../component/RoundedButton";
 import { colors } from "../../util/colors";
 import { fontSizes, spacing } from "./../../util/sizes";
 
@@ -24,6 +25,13 @@ export default function FocusHistory({ focusHistroy, onClear }) {
               data={focusHistroy}
               renderItem={HistoryItem}
             />
+            <View style={styles.clearContainer}>
+              <RoundedButton
+                size={75}
+                title='Clear'
+                onPress={() => onClear()}
+              />
+            </View>
           </>
         )}
       </SafeAreaView>
@@ -39,5 +47,9 @@ const styles = StyleSheet.create({
   title: {
     color: colors["white"],
     fontSize: fontSizes["lg"],
+  },
+  clearContainer: {
+    alignItems: "center",
+    padding: spacing["md"],
   },
 });

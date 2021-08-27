@@ -18,7 +18,9 @@ export default function App() {
     setFocusHistroy([...focusHistroy, { subject, status }]);
   };
 
-  const onClear = () => {};
+  const onClear = () => {
+    setFocusHistroy([]);
+  };
 
   return (
     <View style={styles.container}>
