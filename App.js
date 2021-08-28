@@ -1,47 +1,47 @@
 import React, { useState, useEffect } from "react";
-import { Platform, StyleSheet, View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Focus from "./src/features/focus/Focus";
-import Timer from "./src/features/timer/Timer";
-import { colors } from "./src/util/colors";
-import { spacing } from "./src/util/sizes";
-import FocusHistory from "./src/features/focus/FocusHistory";
+import { View, Text, StyleSheet, Platform, AsyncStorage } from "react-native";
+import { Focus } from "./src/features/focus/Focus";
+import { FocusHistory } from "./src/features/focus/FocusHistory";
+import { Timer } from "./src/features/timer/Timer";
+import { colors } from "./src/utils/colors";
+import { spacing } from "./src/utils/sizes";
 
 const STATUSES = {
   COMPLETE: 1,
-  CANCELED: 2,
+  CANCELLED: 2,
 };
 export default function App() {
   const [focusSubject, setFocusSubject] = useState(null);
-  const [focusHistroy, setFocusHistroy] = useState([]);
+  const [focusHistory, setFocusHistory] = useState([]);
 
-  const addFocusHistroySubjectWithStatus = (subject, status) => {
-    setFocusHistroy([
-      ...focusHistroy,
-      { key: String(focusHistroy.length + 1), subject, status },
+  const addFocusHistorySubjectWithStatus = (subject, status) => {
+    setFocusHistory([
+      ...focusHistory,
+      { key: String(focusHistory.length + 1), subject, status },
     ]);
   };
 
   const onClear = () => {
-    setFocusHistroy([]);
+    setFocusHistory([]);
   };
 
-  const safeFocusHistroy = async () => {
+  const saveFocusHistory = async () => {
     try {
-      AsyncStorage.setItem("focusHistory", JSON.stringify(focusHistroy));
-    } catch (error) {
-      console.log(error);
+      await AsyncStorage.setItem("focusHistory", JSON.stringify(focusHistory));
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const loadFocusHistory = async () => {
     try {
       const history = await AsyncStorage.getItem("focusHistory");
+
       if (history && JSON.parse(history).length) {
-        setFocusHistroy(JSON.parse(history));
+        setFocusHistory(JSON.parse(history));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -50,8 +50,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    safeFocusHistroy();
-  }, [focusHistroy]);
+    saveFocusHistory();
+  }, [focusHistory]);
 
   return (
     <View style={styles.container}>
@@ -59,24 +59,18 @@ export default function App() {
         <Timer
           focusSubject={focusSubject}
           onTimerEnd={() => {
-            addFocusHistroySubjectWithStatus(
-              focusSubject,
-              STATUSES["COMPLETE"]
-            );
+            addFocusHistorySubjectWithStatus(focusSubject, STATUSES.COMPLETE);
             setFocusSubject(null);
           }}
           clearSubject={() => {
-            addFocusHistroySubjectWithStatus(
-              focusSubject,
-              STATUSES["CANCELED"]
-            );
+            addFocusHistorySubjectWithStatus(focusSubject, STATUSES.CANCELLED);
             setFocusSubject(null);
           }}
         />
       ) : (
         <View style={{ flex: 1 }}>
           <Focus addSubject={setFocusSubject} />
-          <FocusHistory focusHistroy={focusHistroy} onClear={onClear} />
+          <FocusHistory focusHistory={focusHistory} onClear={onClear} />
         </View>
       )}
     </View>
@@ -85,8 +79,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === "android" ? spacing["lg"] : spacing["lg"],
     flex: 1,
-    backgroundColor: colors["darkBlue"],
+    paddingTop: Platform.OS === "ios" ? spacing.md : spacing.lg,
+    backgroundColor: colors.darkBlue,
   },
 });

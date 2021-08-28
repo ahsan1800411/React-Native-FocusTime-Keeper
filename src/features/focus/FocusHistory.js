@@ -1,28 +1,28 @@
 import React from "react";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import RoundedButton from "../../component/RoundedButton";
-import { colors } from "../../util/colors";
-import { fontSizes, spacing } from "./../../util/sizes";
+import { View, StyleSheet, FlatList, Text, SafeAreaView } from "react-native";
+
+import { fontSizes, spacing } from "../../utils/sizes";
+import { RoundedButton } from "../../components/RoundedButton";
 
 const HistoryItem = ({ item, index }) => {
   return <Text style={styles.historyItem(item.status)}>{item.subject}</Text>;
 };
 
-export default function FocusHistory({ focusHistroy, onClear }) {
+export const FocusHistory = ({ focusHistory, onClear }) => {
   const clearHistory = () => {
     onClear();
   };
+
   return (
     <>
-      <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
-        {!!focusHistroy.length && (
+      <SafeAreaView style={{ flex: 0.5, alignItems: "center" }}>
+        {!!focusHistory.length && (
           <>
-            <Text style={styles.title}>Things We've Focused on</Text>
-
+            <Text style={styles.title}>Things we've focused on</Text>
             <FlatList
               style={{ flex: 1 }}
-              containerContentStyle={{ flex: 1, alignItems: "center" }}
-              data={focusHistroy}
+              contentContainerStyle={{ flex: 1, alignItems: "center" }}
+              data={focusHistory}
               renderItem={HistoryItem}
             />
             <View style={styles.clearContainer}>
@@ -37,19 +37,19 @@ export default function FocusHistory({ focusHistroy, onClear }) {
       </SafeAreaView>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  historyItem: (item) => ({
+  historyItem: (status) => ({
     color: status > 1 ? "red" : "green",
     fontSize: fontSizes.md,
   }),
   title: {
-    color: colors["white"],
-    fontSize: fontSizes["lg"],
+    color: "white",
+    fontSize: fontSizes.lg,
   },
   clearContainer: {
     alignItems: "center",
-    padding: spacing["md"],
+    padding: spacing.md,
   },
 });

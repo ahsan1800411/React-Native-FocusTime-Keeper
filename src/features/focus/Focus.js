@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { TextInput } from "react-native-paper";
-import RoundedButton from "../../component/RoundedButton";
-import { colors } from "../../util/colors";
-import { fontSizes, spacing } from "../../util/sizes";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { RoundedButton } from '../../components/RoundedButton';
+import { fontSizes, spacing } from '../../utils/sizes';
+import { colors } from '../../utils/colors';
 
-export default function Focus({ addSubject }) {
+export const Focus = ({ addSubject }) => {
   const [subject, setSubject] = useState(null);
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Text style={styles.title}>What Would you like to focus on?</Text>
+        <Text style={styles.title}>What would you like to focus on?</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            style={{ flex: 1, marginRight: spacing["md"] }}
+            style={{ flex: 1, marginRight: spacing.md }}
             onSubmitEditing={({ nativeEvent }) => {
               setSubject(nativeEvent.text);
             }}
           />
           <RoundedButton
             size={50}
-            title='+'
+            title="+"
             onPress={() => {
               addSubject(subject);
             }}
@@ -29,25 +29,25 @@ export default function Focus({ addSubject }) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 0.5,
   },
   innerContainer: {
+    flex: 1,
     padding: spacing.md,
-    flex: 0.5,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   title: {
-    color: colors["white"],
-    fontWeight: "bold",
+    color: colors.white,
+    fontWeight: 'bold',
     fontSize: fontSizes.lg,
   },
   inputContainer: {
     paddingTop: spacing.md,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

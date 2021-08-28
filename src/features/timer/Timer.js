@@ -1,26 +1,30 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Vibration, Platform } from "react-native";
-import { ProgressBar } from "react-native-paper";
-import { useKeepAwake } from "expo-keep-awake";
-import Countdown from "../../component/Countdown";
-import RoundedButton from "../../component/RoundedButton";
-import { spacing } from "../../util/sizes";
-import { colors } from "./../../util/colors";
-import Timing from "./Timing";
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, Vibration, Platform } from 'react-native';
+import { ProgressBar } from 'react-native-paper';
+import { useKeepAwake } from 'expo-keep-awake';
+
+import { colors } from '../../utils/colors';
+import { spacing } from '../../utils/sizes';
+import { Countdown } from '../../components/Countdown';
+import { RoundedButton } from '../../components/RoundedButton';
+
+import { Timing } from './Timing';
 
 const DEFAULT_TIME = 0.1;
-export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
+export const Timer = ({ focusSubject, onTimerEnd, clearSubject }) => {
   useKeepAwake();
-  const [progress, setProgress] = useState(1);
-  const [isStarted, setIsStarted] = useState(false);
+
+  const interval = React.useRef(null);
   const [minutes, setMinutes] = useState(DEFAULT_TIME);
+  const [isStarted, setIsStarted] = useState(false);
+  const [progress, setProgress] = useState(1);
 
   const onProgress = (progress) => {
     setProgress(progress);
   };
 
   const vibrate = () => {
-    if (Platform.OS === "ios") {
+    if (Platform.OS === 'ios') {
       const interval = setInterval(() => Vibration.vibrate(), 1000);
       setTimeout(() => clearInterval(interval), 10000);
     } else {
@@ -44,7 +48,7 @@ export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
 
   return (
     <View style={styles.container}>
-      <View stle={styles.countdown}>
+      <View style={styles.countdown}>
         <Countdown
           minutes={minutes}
           isPaused={!isStarted}
@@ -52,14 +56,14 @@ export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
           onEnd={onEnd}
         />
       </View>
-      <View style={{ paddingTop: spacing["xxl"] }}>
-        <Text style={styles.title}>Focuing on:</Text>
-        <Text style={styles.task}>{focusSubject} </Text>
+      <View style={{ paddingTop: spacing.xxl }}>
+        <Text style={styles.title}>Focusing on:</Text>
+        <Text style={styles.task}>{focusSubject}</Text>
       </View>
-      <View style={{ paddingTop: spacing["sm"] }}>
+      <View style={{ paddingTop: spacing.sm }}>
         <ProgressBar
           progress={progress}
-          color='#5E84E2'
+          color="#5E84E2"
           style={{ height: 10 }}
         />
       </View>
@@ -68,17 +72,17 @@ export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
       </View>
       <View style={styles.buttonWrapper}>
         {isStarted ? (
-          <RoundedButton title='Pause' onPress={() => setIsStarted(false)} />
+          <RoundedButton title="pause" onPress={() => setIsStarted(false)} />
         ) : (
-          <RoundedButton title='Start' onPress={() => setIsStarted(true)} />
+          <RoundedButton title="start" onPress={() => setIsStarted(true)} />
         )}
       </View>
       <View style={styles.clearSubject}>
-        <RoundedButton title='-' onPress={() => clearSubject()} />
+        <RoundedButton title="-" size={50} onPress={() => clearSubject()} />
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -86,24 +90,24 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    textAlign: "center",
+    textAlign: 'center',
   },
   task: {
     color: colors.white,
-    fontWeight: "bold",
-    textAlign: "center",
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   countdown: {
     flex: 0.5,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonWrapper: {
     flex: 0.3,
-    flexDirection: "row",
-    padding: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   clearSubject: {
     paddingBottom: 25,
