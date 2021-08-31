@@ -1,9 +1,9 @@
 # React-Native-FocusTimeApp
 
-Install Dependencies :
+# Install Dependencies :
 
 npm i
 
-Then run :
+# Then run :
 
 expo start
